@@ -10,7 +10,7 @@ const Inner = () => {
     if (location.href.indexOf("render") > -1) {
         return <Render />;
     } else {
-        return <App />;
+        return <Render />;
     }
 };
 
