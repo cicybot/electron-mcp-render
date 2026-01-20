@@ -7,7 +7,7 @@ import { App } from "./app/App.tsx";
 
 const Inner = () => {
     // If the URL contains "render", we show the specific window/desktop view
-    if (location.href.indexOf("render") > -1) {
+    if (location.href.indexOf("/render") > -1) {
         return <Render />;
     } else {
         return <App />;
