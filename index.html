@@ -1,0 +1,155 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElectronMcp Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            root: '#121212',
+            card: '#1e1e1e',
+            hover: '#2c2c2c',
+            border: '#333333',
+            primary: '#e0e0e0',
+            secondary: '#a0a0a0',
+            accent: '#3b82f6',
+            'accent-hover': '#2563eb',
+            danger: '#ef4444',
+            success: '#22c55e',
+            warning: '#f59e0b',
+            'code-bg': '#0d0d0d',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/css">
+    :root {
+      --bg-root: #121212;
+      --bg-card: #1e1e1e;
+      --bg-hover: #2c2c2c;
+      --border: #333333;
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --code-bg: #0d0d0d;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-root);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #root {
+      height: 100%;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-root);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #444;
+    }
+
+    /* Professional UI Components Base */
+    .btn {
+      @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .btn:hover {
+      background-color: var(--bg-hover);
+      border-color: var(--text-secondary);
+    }
+
+    .btn-sm {
+      @apply px-3 py-1.5 text-xs;
+    }
+
+    .btn-primary {
+      @apply bg-accent border-accent text-white shadow-lg shadow-accent/20;
+    }
+
+    .btn-primary:hover {
+      @apply bg-accent-hover border-accent-hover;
+    }
+
+    .btn-success {
+      @apply bg-success/20 border-success/40 text-success;
+    }
+
+    .btn-icon {
+      @apply p-2 rounded-lg;
+    }
+
+    .input {
+      @apply bg-code-bg border border-border text-primary px-4 py-2 rounded-lg outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30;
+    }
+
+    .card {
+      @apply bg-card border border-border rounded-xl overflow-hidden;
+    }
+
+    .scroll-y {
+      @apply overflow-y-auto;
+    }
+
+    /* Animations System */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideInFromBottom { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes slideInFromTop { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .animate-in { animation-fill-mode: both; }
+    .fade-in { animation: fadeIn 0.4s ease-out; }
+    .slide-in-from-bottom-2 { animation: slideInFromBottom 0.3s ease-out; }
+    .slide-in-from-bottom-4 { animation: slideInFromBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .slide-in-from-top { animation: slideInFromTop 0.3s ease-out; }
+    .duration-200 { animation-duration: 200ms; }
+    .duration-300 { animation-duration: 300ms; }
+    .duration-500 { animation-duration: 500ms; }
+
+    /* Webview specific */
+    webview {
+      background-color: #fff;
+    }
+  </style>
+  <script type="importmap">
+  {
+    "imports": {
+      "react/": "https://esm.sh/react@^19.2.3/",
+      "react": "https://esm.sh/react@^19.2.3",
+      "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
