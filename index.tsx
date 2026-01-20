@@ -2,13 +2,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RpcProvider } from './app/RpcContext';
-//import { Render } from './app/Render.tsx';
+import { Render } from './app/Render.tsx';
 import { App } from "./app/App.tsx";
 
 const Inner = () => {
     // If the URL contains "render", we show the specific window/desktop view
     if (location.href.indexOf("render") > -1) {
-        return <App />;
+        return <Render />;
     } else {
         return <App />;
     }
