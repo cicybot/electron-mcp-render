@@ -26,7 +26,6 @@ export const ConnectionManager = () => {
 
     const handleSelect = (url: string) => {
         setCurrentUrl(url);
-        setIsOpen(false);
     };
 
     const handleAdd = () => {
@@ -36,18 +35,15 @@ export const ConnectionManager = () => {
                 return;
             }
             addUrl(newValue);
-            setCurrentUrl(newValue); // Auto-select the new connection
+            setCurrentUrl(newValue);
             setNewValue("");
             setIsAdding(false);
-            setIsOpen(false); // Close modal and return to back
         }
     };
 
-    // Helper to extract a friendly host name for display in limited header space
     const getDisplayHost = (url: string) => {
         if (!url) return "No RPC";
         try {
-            // If it's a standard URL, return just the host (e.g., 127.0.0.1:3456)
             if (url.startsWith('http')) {
                 const u = new URL(url);
                 return u.host;
@@ -61,12 +57,12 @@ export const ConnectionManager = () => {
     return (
         <>
             <button 
-                className="btn btn-sm flex items-center gap-2 hover:bg-hover" 
+                className="btn btn-sm flex items-center gap-2 hover:bg-hover border-border/50 group" 
                 onClick={() => setIsOpen(true)}
                 title={`Active RPC: ${rpcUrl || "None"}`}
             >
-                <div className={`w-2 h-2 rounded-full ${rpcUrl ? 'bg-success' : 'bg-danger'}`}></div>
-                <span className="font-mono text-[10px] font-bold max-w-[120px] truncate hidden sm:inline-block uppercase tracking-wider">
+                <div className={`w-1.5 h-1.5 rounded-full ${rpcUrl ? 'bg-success shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 'bg-danger'}`}></div>
+                <span className="font-mono text-[10px] font-bold max-w-[140px] truncate hidden sm:inline-block uppercase tracking-widest text-secondary group-hover:text-primary transition-colors">
                     {getDisplayHost(rpcUrl)}
                 </span>
                 <IconSettings />
@@ -74,59 +70,63 @@ export const ConnectionManager = () => {
 
             {isOpen && (
                 <Modal 
-                    title="RPC Connections" 
+                    title="RPC Endpoints" 
                     onClose={() => setIsOpen(false)} 
-                    fullScreen={true}
-                    bodyStyle={{ backgroundColor: '#000000' }}
+                    fullScreen={false}
                 >
-                    <div className="flex flex-col gap-6 max-w-4xl mx-auto w-full py-8 px-4">
-                        <div className="text-secondary text-sm text-center max-w-lg mx-auto">
-                            Manage your RPC Server connections. Select the active server using the radio button or add new endpoints.
-                        </div>
+                    <div className="flex flex-col gap-6 w-full">
+                        <p className="text-secondary text-[11px] font-medium leading-relaxed px-1">
+                            Connect to your automation server. Select an endpoint to set it as active.
+                        </p>
                         
-                        <div className="flex flex-col gap-3">
+                        <div className="space-y-3">
                             {availableUrls.map(url => (
-                                <div key={url} className={`flex items-center gap-3 p-4 rounded border transition-colors ${url === rpcUrl ? 'border-accent bg-accent/5' : 'border-border bg-card'}`}>
-                                    <label className="flex items-center justify-center cursor-pointer shrink-0" title="Select this server">
+                                <div 
+                                    key={url} 
+                                    className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-200 ${
+                                        url === rpcUrl 
+                                            ? 'border-accent/50 bg-accent/5 shadow-[0_0_20px_rgba(59,130,246,0.05)]' 
+                                            : 'border-border/40 bg-root/20 hover:border-border/80'
+                                    }`}
+                                >
+                                    <div className="flex items-center justify-center shrink-0">
                                         <input 
                                             type="radio" 
                                             name="rpc_connection"
                                             checked={url === rpcUrl}
                                             onChange={() => handleSelect(url)}
-                                            className="w-5 h-5 cursor-pointer"
-                                            style={{accentColor: 'var(--accent)'}}
+                                            className="w-4 h-4 cursor-pointer accent-accent"
                                         />
-                                    </label>
+                                    </div>
                                     
                                     {editTarget === url ? (
-                                        <div className="flex-1 flex gap-3 animate-in fade-in">
+                                        <div className="flex-1 flex gap-2">
                                             <input 
-                                                className="input py-2 px-3 text-sm flex-1 font-mono" 
+                                                className="input py-1.5 px-3 text-xs flex-1 font-mono bg-root/60 border-accent/30" 
                                                 value={editValue}
                                                 onChange={e => setEditValue(e.target.value)}
                                                 autoFocus
                                                 onKeyDown={e => e.key === 'Enter' && saveEdit()}
                                             />
-                                            <div className="flex gap-2">
-                                                <button className="btn btn-sm btn-icon text-success border-success" onClick={saveEdit} title="Save"><IconCheck /></button>
-                                                <button className="btn btn-sm btn-icon" onClick={() => setEditTarget(null)} title="Cancel"><IconX /></button>
+                                            <div className="flex gap-1">
+                                                <button className="btn btn-sm btn-icon text-success hover:bg-success/10" onClick={saveEdit}><IconCheck /></button>
+                                                <button className="btn btn-sm btn-icon hover:bg-danger/10" onClick={() => setEditTarget(null)}><IconX /></button>
                                             </div>
                                         </div>
                                     ) : (
                                         <>
                                             <div 
-                                                className="flex-1 font-mono text-base truncate cursor-pointer select-none" 
+                                                className={`flex-1 font-mono text-[11px] truncate cursor-pointer select-none py-1 ${url === rpcUrl ? 'text-primary font-bold' : 'text-secondary/80'}`} 
                                                 onClick={() => handleSelect(url)}
                                             >
                                                 {url}
                                             </div>
-                                            <div className="flex gap-2">
-                                                <button className="btn btn-sm btn-icon opacity-60 hover:opacity-100 transition-opacity" onClick={(e) => { e.stopPropagation(); startEdit(url); }} title="Edit"><IconEdit /></button>
+                                            <div className="flex gap-2 shrink-0">
+                                                <button className="btn btn-sm btn-icon opacity-50 hover:opacity-100" onClick={(e) => { e.stopPropagation(); startEdit(url); }}><IconEdit /></button>
                                                 <button 
-                                                    className="btn btn-sm btn-icon opacity-60 hover:opacity-100 hover:text-danger hover:border-danger transition-all disabled:opacity-20" 
-                                                    onClick={(e) => { e.stopPropagation(); if(confirm('Delete ' + url + '?')) removeUrl(url); }}
+                                                    className="btn btn-sm btn-icon opacity-50 hover:opacity-100 hover:text-danger disabled:opacity-10" 
+                                                    onClick={(e) => { e.stopPropagation(); if(confirm('Delete connection?')) removeUrl(url); }}
                                                     disabled={availableUrls.length <= 1}
-                                                    title="Delete"
                                                 >
                                                     <IconTrash />
                                                 </button>
@@ -137,29 +137,29 @@ export const ConnectionManager = () => {
                             ))}
                         </div>
 
-                        <div className="mt-2 pt-6 border-t border-border">
+                        <div className="pt-4 border-t border-border/30">
                             {isAdding ? (
-                                 <div className="flex flex-col gap-3 p-6 rounded border border-border bg-card shadow-lg animate-in fade-in slide-in-from-bottom-2 duration-200">
-                                    <h4 className="font-bold text-sm text-primary mb-1">Add New RPC URL</h4>
-                                    <div className="flex items-center gap-3">
+                                 <div className="flex flex-col gap-4 p-5 rounded-2xl border border-accent/20 bg-accent/5 animate-in slide-in-from-bottom-2">
+                                    <h4 className="text-[10px] font-black text-accent uppercase tracking-widest">New Connection</h4>
+                                    <div className="flex gap-2">
                                         <input 
-                                            className="input py-2 px-3 text-sm flex-1 font-mono"
-                                            placeholder="http://127.0.0.1:3456/rpc"
+                                            className="input py-2 px-3 text-xs flex-1 font-mono bg-root/80 border-accent/20"
+                                            placeholder="https://host.com/rpc?token=..."
                                             value={newValue}
                                             onChange={e => setNewValue(e.target.value)}
                                             autoFocus
                                             onKeyDown={e => e.key === 'Enter' && handleAdd()}
                                         />
-                                        <button className="btn btn-primary whitespace-nowrap px-6" onClick={handleAdd}>Save</button>
-                                        <button className="btn whitespace-nowrap" onClick={() => setIsAdding(false)}>Cancel</button>
+                                        <button className="btn btn-primary h-9 px-4 text-[10px] font-bold uppercase tracking-widest" onClick={handleAdd}>Add</button>
                                     </div>
+                                    <button className="text-[10px] font-bold text-secondary hover:text-primary uppercase tracking-widest text-left px-1" onClick={() => setIsAdding(false)}>Cancel</button>
                                  </div>
                             ) : (
                                 <button 
-                                    className="btn w-full border-dashed text-secondary hover:text-primary py-4 flex items-center justify-center gap-2 hover:bg-hover transition-colors rounded-lg" 
+                                    className="btn w-full border-dashed border-border/60 text-secondary hover:text-primary hover:border-accent/50 py-4 flex items-center justify-center gap-2 hover:bg-accent/5 transition-all rounded-2xl text-[10px] font-black uppercase tracking-widest" 
                                     onClick={() => setIsAdding(true)}
                                 >
-                                    <IconPlus /> Add New Connection
+                                    <IconPlus /> Register New Endpoint
                                 </button>
                             )}
                         </div>

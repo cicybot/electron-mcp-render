@@ -1,10 +1,7 @@
 
-import { RpcProvider } from './RpcContext';
 import { Dashboard } from './Dashboard';
 
 export const App = () => {
-    return <RpcProvider>
-        <Dashboard />
-    </RpcProvider>
+    // RpcProvider is already provided in index.tsx
+    return <Dashboard />;
 }
-

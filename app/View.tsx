@@ -1,5 +1,6 @@
 
-import { useEffect, useRef, useState} from 'react';
+// Add React import to resolve namespace issues in ViewProps interface
+import React, { useEffect, useRef, useState} from 'react';
 import type {CSSProperties, JSXElementConstructor, ReactElement, ReactNode} from 'react';
 
 export interface UtilsProps {
