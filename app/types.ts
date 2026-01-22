@@ -1,5 +1,5 @@
 
-export const DEFAULT_RPC_URL = "https://gaw-3456.cicy.de5.net/rpc?token=30d5d11864651e2cf7dae4f6b1dc821ab20ac24a7d58a2d999a3639cc2165e38";
+export const DEFAULT_RPC_URL = "http://127.0.0.1:3456/rpc";
 
 export interface RpcResponse<T> {
   ok: boolean;
