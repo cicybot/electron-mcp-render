@@ -1,6 +1,5 @@
 
-export const DEFAULT_RPC_URL = "http://127.0.0.1:3456/rpc";
-
+export const DEFAULT_RPC_URL = "http://localhost:3456/rpc"
 export interface RpcResponse<T> {
   ok: boolean;
   result?: T;
